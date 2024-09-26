@@ -27,33 +27,48 @@ def home(request):
 # #           {'name':'Aman','age':20,'city':'Indore'}
 # #           ]
 # #     return render(request,'collection.html',{'data':data})
-# def register(request):
-#     return render(request,'register.html')
-   
+def register(request):
+    if request.method =='POST':
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        contact=request.POST.get('contact')
+        password=request.POST.get('password')
+        data={'name':name,
+              'email': email,
+              'contact': contact,
+              'password': password}
+        request.session['data']=data
+        return render(request,'login.html')
+    else:
+        return render(request,'register.html')
+
 def login(request):
-    if request.method=='POST':
-        email=request.POST['email']
-        password=request.POST['password']
+    if request.method =='POST':
+        email=request.POST.get('email')
+        password=request.POST.get('password')
         data1=request.session.get('data')
         print(data1)
-        print(data1["name"],data1["email"],data1["contact"],data1["password"])
-        if data1['email']==email:
-            if data1['password']==password:
-                My_Data={
-                    'nm':data1['name'],
-                    'em':data1['email'],
-                    'con':data1['contact'],
-                    'pass':data1['password']
-                }
-                return render(request,'dashboard.html',My_Data)
-            else:
-                msg='Invalid Password'
-                return render(request,'login.html',{'msg':msg}) 
-        else:
-            msg='Email is not Valid'
-            return render(request,'login.html',{'msg':msg})
+        print(data1['name'],data1['email'],data1['contact'],data1['password'])
+        name1=data1['name']
+        email1=data1['email']
+        password1=data1['password']
+        contact1=data1['contact']
+        print(email)
+        print(email1)
+
+        if email == email1:
+            print("email varified......")
+            if password1==password:
+                print("password varified......")
+                data={'n1':name1,
+                'n2':email,
+                'n3':contact1,
+                'n4':password}
+                return render(request,'dashboard.html',data)
+            
+
     else:
-        return render(request,'login.html')        
+        return render(request,'login.html')      
 #     if request.method=='POST':
 #         email1=request.POST.get('email')
 #         password1=request.POST.get('password')
@@ -114,22 +129,3 @@ def login(request):
 #         email=request.POST.get('email')
 #         password=request.POST.get('password')
 #         print(email,password)
-
-
-def register(request):
-    if request.method=='POST':
-        name=request.POST.get('name')
-        email=request.POST.get('email')
-        contact=request.POST.get('contact')
-        password=request.POST.get('password')
-        data={
-            'name':name,
-            'email':email,
-            'contact':contact,
-            'password':password
-        }
-        request.session['data']=data
-        return render(request,'login.html')
-    else:
-        return render(request,'register.html')
-         
